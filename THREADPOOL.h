@@ -51,13 +51,15 @@ void* THREADPOOL<T>::worker(void *arg){
 
 template<typename T>
 void THREADPOOL<T>::run(){
-	sem.wait();
-	locker.lock();
-	T* client=work_queue.front();
-	work_queue.pop_front();
-	locker.unlock();
-	client->recv_msg();
-	client->send_msg();	
+	while(1){
+		sem.wait();
+		locker.lock();
+		T* client=work_queue.front();
+		work_queue.pop_front();
+		locker.unlock();
+		client->recv_msg();
+		client->send_msg();	
+	}
 }
 
 #endif

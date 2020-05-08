@@ -69,8 +69,7 @@ int main(int argc,char** argv){
 				client[sockfd].close_conn();
 			}
 			else if(events[i].events&EPOLLIN){//数据可读
-				client[sockfd].recv_msg();
-				client[sockfd].send_msg();
+				pool.append(client+sockfd);
 			}
 		}
 	}
