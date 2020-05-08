@@ -5,7 +5,7 @@
 #include<semaphore.h>
 #include<pthread.h>
 
-//封装信号量的类，记录工作队列内请求数量
+//封装信号量的类，记录工作队列内任务数量
 class SEM{
 	private:
 		sem_t m_sem;
@@ -26,7 +26,7 @@ class SEM{
 		}
 };
 
-//封装互斥锁的类，保护工作队列
+//封装互斥锁的类，保护工作队列的读取和写入
 class LOCKER{
 	private:
 		pthread_mutex_t m_mutex;

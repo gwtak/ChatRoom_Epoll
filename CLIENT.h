@@ -29,7 +29,7 @@ class CLIENT{
 		struct sockaddr_in CLIENT_ADDR;
 		
 	public:
-		static int m_epollfd;
+		static int m_epollfd;//epoll事件表描述符，所有client共用
 		char read_buf[READ_BUF_SIZE];
 		char write_buf[WRITE_BUF_SIZE];
 		void init(int connectfd,struct sockaddr_in client_addr);
@@ -41,6 +41,7 @@ class CLIENT{
 int CLIENT::m_epollfd=-1;
 CLIENT* client=new CLIENT[CLIENT_SIZE];
 
+//client初始化，保存connectfd和client地址
 void CLIENT::init(int connectfd,struct sockaddr_in client_addr){
 	CLIENT_SOCKFD=connectfd;
 	CLIENT_ADDR=client_addr;
@@ -48,11 +49,13 @@ void CLIENT::init(int connectfd,struct sockaddr_in client_addr){
 	printf("%s:%d接入\n",inet_ntoa(CLIENT_ADDR.sin_addr),ntohs(CLIENT_ADDR.sin_port));
 }
 
+//client链接关闭
 void CLIENT::close_conn(){
 	removefd(m_epollfd,CLIENT_SOCKFD);
 	CLIENT_SOCKFD=-1;
 }
 
+//收取信息，放入read_buf，添加头部后放入write_buf
 void CLIENT::recv_msg(){
 	if(recv(CLIENT_SOCKFD,read_buf,sizeof(read_buf),0)<0)
 		perror("recv error"),exit(-1);
@@ -61,6 +64,7 @@ void CLIENT::recv_msg(){
 	printf("%s\n",write_buf);
 }
 
+//发送write_buf内容
 void CLIENT::send_msg(){
 	for(int i=0;i<CLIENT_SIZE;i++){
 		if(client[i].CLIENT_SOCKFD!=-1){

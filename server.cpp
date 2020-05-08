@@ -44,7 +44,7 @@ int main(int argc,char** argv){
 	int epollfd=epoll_create(1);
 	addfd(epollfd,listenfd);
 	
-	CLIENT::m_epollfd=epollfd;
+	CLIENT::m_epollfd=epollfd;//static变量
 	
 	THREADPOOL<CLIENT> pool;
 	
@@ -54,7 +54,7 @@ int main(int argc,char** argv){
 		int num=epoll_wait(epollfd,events,EVENTS_SIZE,-1);
 		for(int i=0;i<num;i++){
 			int sockfd=events[i].data.fd;
-			if(sockfd==listenfd){
+			if(sockfd==listenfd){//新连接
 				int connectfd;
 				struct sockaddr_in client_addr;
 				memset(&client_addr,0,sizeof(client_addr));
@@ -65,10 +65,10 @@ int main(int argc,char** argv){
 				
 				client[connectfd].init(connectfd,client_addr);
 			}
-			else if(events[i].events&(EPOLLERR|EPOLLHUP)){
+			else if(events[i].events&(EPOLLERR|EPOLLHUP)){//socket关闭或错误
 				client[sockfd].close_conn();
 			}
-			else if(events[i].events&EPOLLIN){
+			else if(events[i].events&EPOLLIN){//数据可读
 				client[sockfd].recv_msg();
 				client[sockfd].send_msg();
 			}

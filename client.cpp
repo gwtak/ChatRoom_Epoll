@@ -11,6 +11,7 @@
 
 #define EVENTS_SIZE 1000
 
+//添加epoll事件
 void addfd(int epollfd,int fd){
 	epoll_event event;
 	event.data.fd=fd;
@@ -18,11 +19,13 @@ void addfd(int epollfd,int fd){
 	epoll_ctl(epollfd,EPOLL_CTL_ADD,fd,&event);
 }
 
+//删除epoll事件
 void removefd(int epollfd,int fd){
 	epoll_ctl(epollfd,EPOLL_CTL_DEL,fd,0);
 	close(fd);
 }
 
+//socket初始化
 int sock_init(char** argv){
 	int sockfd;
 	struct sockaddr_in server_addr;
@@ -40,6 +43,7 @@ int sock_init(char** argv){
 	return sockfd;
 }
 
+//监听键盘输入
 void* pthread_send(void* arg){
 	int sockfd=*(int*)arg;
 	char buf[1000];
@@ -62,12 +66,12 @@ int main(int argc,char** argv){
 	epoll_event events[EVENTS_SIZE];
 	
 	pthread_t pid;
-	pthread_create(&pid,0,pthread_send,&sockfd);
+	pthread_create(&pid,0,pthread_send,&sockfd);//创建线程监听键盘输入
 	
 	while(1){
 		int num=epoll_wait(epollfd,events,EVENTS_SIZE,-1);
 		for(int i=0;i<EVENTS_SIZE;i++){
-			if(events[i].events&EPOLLIN){
+			if(events[i].events&EPOLLIN){//数据可读
 				char msg[1024];
 				if(recv(sockfd,msg,sizeof(msg),0)<0)
 					perror("recv error\n"),exit(-1);
