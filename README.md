@@ -24,9 +24,3 @@
 
 ## 实验结果
 
-[]([https://github.com/gwtak/chat_room_pro/blob/master/image/@%25U4T)OP4XUGEXGG3LX%7DC3U.png?raw=true](https://github.com/gwtak/chat_room_pro/blob/master/image/@%U4T)OP4XUGEXGG3LX}C3U.png?raw=true))
-
-[]([https://raw.githubusercontent.com/gwtak/chat_room_pro/master/image/46EZ89XD_Q)%40%600HGWL7DBXW.png]
-
-[]()
-
