@@ -41,7 +41,10 @@ void THREADPOOL<T>::append(T* client){
 	locker.unlock();
 }
 
-//中间转接，因为成员函数要作为线程函数必须是static类型，只能访问静态量，而run()有其他变量
+//中间转接，因为成员函数要作为线程函数必须是static类型
+//static类型成员函数只能访问静态量，run()有其他非static变量
+//传入this指针，worker()可以访问非static成员函数
+//非static成员函数run()遂可以访问成员变量
 template<typename T>
 void* THREADPOOL<T>::worker(void *arg){
     THREADPOOL *pool = (THREADPOOL *)arg;
