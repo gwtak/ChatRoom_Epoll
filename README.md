@@ -24,8 +24,8 @@
 
 ## 实验结果
 
-![1](https://raw.githubusercontent.com/gwtak/chat_room_pro/master/image/1.png)
+![1](./image/1.png)
 
-![2](https://raw.githubusercontent.com/gwtak/chat_room_pro/master/image/2.png)
+![2](./image/2.png)
 
-![3](https://raw.githubusercontent.com/gwtak/chat_room_pro/master/image/3.png)
+![3](./image/3.png)
